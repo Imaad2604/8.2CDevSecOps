@@ -19,8 +19,8 @@ pipeline {
                 always {
                     emailext(
                         subject: "Test Stage: ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
-                        body: "The Run Tests stage finished with status: ${currentBuild.currentResult}.\n\nLog attached.\nBuild URL: ${env.BUILD_URL}",
-                        to: 'imaadcassimz@gmail.com',
+                        body: "The Run Tests stage finished with status: ${currentBuild.currentResult}. Log attached. Build URL: ${env.BUILD_URL}",
+                        to: "imaadcassimz@gmail.com",
                         attachLog: true
                     )
                 }
@@ -39,5 +39,12 @@ pipeline {
                 always {
                     emailext(
                         subject: "Security Scan: ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
-                        body: "The NPM Audit stage finished with status: ${currentBuild.currentResult}.\n\nLog attached.\nBuild URL: ${env.BUILD_URL}",
-                        to: 'imaadcassimz@gmail.com',
+                        body: "The NPM Audit stage finished with status: ${currentBuild.currentResult}. Log attached. Build URL: ${env.BUILD_URL}",
+                        to: "imaadcassimz@gmail.com",
+                        attachLog: true
+                    )
+                }
+            }
+        }
+    }
+}
