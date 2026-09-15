@@ -15,6 +15,16 @@ pipeline {
             steps {
                 sh 'npm test || true'
             }
+            post {
+                always {
+                    emailext(
+                        subject: "Test Stage: ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
+                        body: "The Run Tests stage finished with status: ${currentBuild.currentResult}.\n\nLog attached.\nBuild URL: ${env.BUILD_URL}",
+                        to: 'imaadcassimz@gmail.com',
+                        attachLog: true
+                    )
+                }
+            }
         }
         stage('Generate Coverage Report') {
             steps {
@@ -25,6 +35,9 @@ pipeline {
             steps {
                 sh 'npm audit || true'
             }
-        }
-    }
-}
+            post {
+                always {
+                    emailext(
+                        subject: "Security Scan: ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
+                        body: "The NPM Audit stage finished with status: ${currentBuild.currentResult}.\n\nLog attached.\nBuild URL: ${env.BUILD_URL}",
+                        to: 'imaadcassimz@gmail.com',
