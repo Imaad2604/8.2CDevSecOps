@@ -14,7 +14,58 @@ pipeline {
                     emailext (
                         subject: "Test Stage: ${currentBuild.currentResult} — Build #${env.BUILD_NUMBER}",
                         body: "The Run Tests stage finished with status: ${currentBuild.currentResult}.\n\nLog attached.\nBuild: ${env.BUILD_URL}",
-                        to: 'youremail@example.com',
+                        to: 'imaadcassimz@gmail.pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Imaad2604/8.2CDevSecOps.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                sh 'npm test || true'
+            }
+            post {
+                always {
+                    emailext(
+                        subject: "Test Stage: ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
+                        body: "The Run Tests stage finished with status: ${currentBuild.currentResult}. Log attached. Build URL: ${env.BUILD_URL}",
+                        to: "imaadcassimz@gmail.com",
+                        from: "imaadcassimz@gmail.com",
+                        attachLog: true
+                    )
+                }
+            }
+        }
+        stage('Generate Coverage Report') {
+            steps {
+                sh 'npm run coverage || true'
+            }
+        }
+        stage('NPM Audit (Security Scan)') {
+            steps {
+                sh 'npm audit || true'
+            }
+            post {
+                always {
+                    emailext(
+                        subject: "Security Scan: ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
+                        body: "The NPM Audit stage finished with status: ${currentBuild.currentResult}. Log attached. Build URL: ${env.BUILD_URL}",
+                        to: "imaadcassimz@gmail.com",
+                        from: "imaadcassimz@gmail.com",
+                        attachLog: true
+                    )
+                }
+            }
+        }
+    }
+}com',
                         attachLog: true
                     )
                 }
@@ -30,7 +81,7 @@ pipeline {
                     emailext (
                         subject: "Security Scan: ${currentBuild.currentResult} — Build #${env.BUILD_NUMBER}",
                         body: "The NPM Audit stage finished with status: ${currentBuild.currentResult}.\n\nLog attached.\nBuild: ${env.BUILD_URL}",
-                        to: 'youremail@example.com',
+                        to: 'imaadcassimz@gmail.com',
                         attachLog: true
                     )
                 }
