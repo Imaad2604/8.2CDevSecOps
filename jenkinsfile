@@ -17,10 +17,9 @@ pipeline {
             }
             post {
                 always {
-                    mail to: "imaadcassimz@gmail.com",
-                         subject: "Test Stage: ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
-                         body: "The Run Tests stage finished with status: ${currentBuild.currentResult}. Build URL: ${env.BUILD_URL}"
-                }
+                    emailext body: 'Test Message',
+                    subject: 'Test Subject',
+                    to: 'imaadcassimz@gmail.com'   }
             }
         }
         stage('Generate Coverage Report') {
